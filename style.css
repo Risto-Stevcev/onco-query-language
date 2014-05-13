@@ -1,0 +1,30 @@
+body
+{
+    font-family: 'Droid Sans', Verdana, Arial;
+    font-size: 12px;
+}
+
+#container
+{
+    width: 700px;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    border: 1px solid darkblue;
+    background-color: #CCCCFF;
+}
+
+#content
+{
+    padding: 1em;
+}
+
+input#query
+{
+    width: 460px;
+}
+
+span#result
+{
+    font-size: 1.2em; 
+}
