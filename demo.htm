@@ -1,0 +1,50 @@
+<!DOCTYPE HTML>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+  	<title>OQL - Onco Query Language</title>
+
+    <script src="jquery.js"></script> 
+    <script src="oql.js"></script>
+  </head>
+    <script>
+    var expressions = [];
+    </script>
+    <script src="parser.js"></script>
+    <script>
+    $(document).ready(function () {
+      $("input#query").keyup(function(event){
+          if(event.keyCode == 13){
+              $("button#submit").click();
+          }
+      });
+
+      $("button#submit").click(function () {
+        try {
+          $("span#result").html("");
+          expressions = [new Query()]
+          var result = parser.parse( $("input").val() )
+          $.each( result, function( i, val ) {
+            $("span#result").append( JSON.stringify( val ) + "<br />" );    
+          });
+          //$("span#result").html( result );
+        } 
+        catch (e) {
+          $("span#result").html( String(e) );
+        }
+      });
+    });
+    </script>
+
+  <body>
+    <div id="content">
+    <h1>Onco Query Language</h1>
+    <p>This demo parses queries written in the Onco Query Language.</p>
+    <p>Enter an expression to evaluate, such as <code>BRAF</code>:</p>
+    <p>
+      <input id="query" type="text" value="BRAF" /> <button id="submit">equals</button> 
+    </p>
+    <span id="result"></span>
+    </div>
+  </body>
+</html>
