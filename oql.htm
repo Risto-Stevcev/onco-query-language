@@ -3,40 +3,40 @@
   <head>
     <meta charset="utf-8">
   	<title>OQL - Onco Query Language</title>
-    <link href='http://fonts.googleapis.com/css?family=Droid+Sans' rel='stylesheet' type='text/css'>
+    <link href="http://fonts.googleapis.com/css?family=Droid+Sans" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="style.css" />
     <script src="jquery.js"></script> 
     <script src="oql.js"></script>
-  </head>
     <script src="parser.js"></script>
     <script>
     $(document).ready(function () {
-      $("input#query").keyup(function(event){
-          if(event.keyCode == 13){
-              $("button#submit").click();
+      $('input#query').keyup(function(event){
+          if(event.keyCode === 13){
+              $('button#submit').click();
           }
       });
 
-      $("button#submit").click(function () {
+      $('button#submit').click(function () {
         try {
-          $("span#result").html("");
-          var result = parser.parse( $("input").val() )
+          $('span#result').html('');
+          var result = parser.parse( $('input').val() )
           $.each( result, function( i, val ) {
-            $("span#result").append( JSON.stringify( val ) + "<br />" );    
+            $('span#result').append( JSON.stringify( val ) + '<br />' );    
           });
         } 
         catch (e) {
-          $("span#result").html( String(e) );
+          $('span#result').html( String(e) );
         }
       });
     });
     </script>
+  </head>
 
   <body>
     <div id="container">
       <div id="content">
       <h1>Onco Query Language</h1>
-      <p>This demo parses queries written in the Onco Query Language.</p>
+      <p>This demo parses queries written in the <a href="http://www.cbioportal.org/onco_query_lang_desc.jsp">Onco Query Language</a>.</p>
       <p>Enter an expression to evaluate, such as <code>BRAF</code>, <code>TP53: EXP<-2</code>, or 
             <code>DATATYPES: MUT; TP53 BRAF</code>:</p>
       <p>

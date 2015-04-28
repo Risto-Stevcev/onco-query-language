@@ -19,32 +19,29 @@ var data = [ { sample: 'S1', gene: 'BRAF', genotype: { type: 'MUT', data: 'V600E
  * @param {list} expressions The expressions that make up the query.
  */
 function Query( expressions ) {    
-    this.expressions = expressions;
-    
-    check_term = function( term, sample ) {
-        var selector = term[0];
-        var attribute = (selector.length == 2) ? 
-                        sample[selector[0]][selector[1]] : sample[selector];
-        var query = term[1];
-        var compare = term[2];
-        return compare( attribute, query );
-    }
-    
+  this.expressions = expressions;
+  
+  check_term = function( term, sample ) {
+    var selector = term[0];
+    var attribute = (selector.length == 2) ? 
+                    sample[selector[0]][selector[1]] : sample[selector];
+    var query = term[1];
+    var compare = term[2];
+    return compare( attribute, query );
+  }
+  
 
-    this.is_match = function( expression, sample ) {
-        if (expression.length > 1) {
-            return expression.reduce(function( term_a, term_b ) {
-                if (typeof term_a == "boolean")
-                    return term_a && check_term( term_b, sample );
-                else
-                    return check_term( term_a, sample ) && check_term( term_b, sample );
-            });
-        }
-        else {
-            var term = expression[0];
-            return check_term( term, sample );
-        }
-    };
+  this.is_match = function( expression, sample ) {
+    if (expression.length > 1) {
+      return expression.reduce(function( term_a, term_b ) {
+        return term_a && check_term( term_b, sample );
+      }, true);
+    }
+    else {
+      var term = expression[0];
+      return check_term( term, sample );
+    }
+  };
 };
 
 /**
@@ -55,22 +52,17 @@ function Query( expressions ) {
  * @return {list} Returns a subset of the set that matches the query.
  */
 function search( query, set ) {
-    return data.filter(function( sample ) {
-        if (query.expressions.length > 1) {
-            return query.expressions.reduce(function( expression_a, expression_b ) {
-                if (typeof expression_a == "boolean")
-                    return expression_a || 
-                           query.is_match( expression_b, sample );
-                else
-                    return query.is_match( expression_a, sample ) || 
-                           query.is_match( expression_b, sample );
-            });
-        }
-        else {
-            var expression = query.expressions[0];
-            return query.is_match( expression, sample );
-        }
-    });
+  return data.filter(function( sample ) {
+    if (query.expressions.length > 1) {
+      return query.expressions.reduce(function( expression_a, expression_b ) {
+        return expression_a || query.is_match( expression_b, sample );
+      }, false);
+    }
+    else {
+      var expression = query.expressions[0];
+      return query.is_match( expression, sample );
+    }
+  });
 }
 
 function eq( a, b ) { return a == b; };

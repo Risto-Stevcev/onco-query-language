@@ -4,12 +4,19 @@ body
     font-size: 12px;
 }
 
+a {
+    text-decoration: none;
+}
+
+a:hover {
+    font-weight: bold;
+}
+
 #container
 {
     width: 700px;
     text-align: center;
-    margin-left: auto;
-    margin-right: auto;
+    margin: 0 auto;
     border: 1px solid darkblue;
     background-color: #CCCCFF;
 }
